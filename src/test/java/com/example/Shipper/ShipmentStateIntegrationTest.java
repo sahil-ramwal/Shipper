@@ -3,7 +3,7 @@ package com.example.Shipper;
 import com.example.Shipper.Repository.ShipmentRepository;
 import com.example.Shipper.entity.Shipment;
 import com.example.Shipper.enums.ShipmentStatus;
-import com.example.Shipper.services.ShipmentService;
+import com.example.Shipper.services.ShipmentCommandService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ShipmentStateIntegrationTest {
 
     @Autowired
-    private ShipmentService shipmentService;
+    private ShipmentCommandService shipmentService;
 
     @Autowired
     private ShipmentRepository shipmentRepository;
