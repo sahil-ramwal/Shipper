@@ -1,12 +1,10 @@
-package com.example.Shipper.IntegrationTests;
+package com.example.Shipper;
 
 import com.example.Shipper.Repository.ShipmentRepository;
-import com.example.Shipper.ShipperApplication;
-import com.example.Shipper.StatePattern.AcceptedState;
-import com.example.Shipper.StatePattern.ShipmentStateRegistry;
 import com.example.Shipper.entity.Shipment;
 import com.example.Shipper.enums.ShipmentStatus;
 import com.example.Shipper.services.ShipmentService;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = ShipperApplication.class)
 @Transactional
 @ActiveProfiles("test")
-class ShipmentStateIntegrationTest {
+public class ShipmentStateIntegrationTest {
 
     @Autowired
     private ShipmentService shipmentService;
@@ -29,8 +27,8 @@ class ShipmentStateIntegrationTest {
     @Autowired
     private ShipmentRepository shipmentRepository;
 
-//    @Autowired
-//    private EntityManager entityManager;
+    @Autowired
+    private EntityManager entityManager;
 
     private Shipment shipment;
 
@@ -41,8 +39,6 @@ class ShipmentStateIntegrationTest {
         s.setShipperId("SHIPPER-1");
         s.setOriginAddress("Hyderabad");
         s.setDestinationAddress("Bangalore");
-        ShipmentStateRegistry shipmentStateRegistry=new ShipmentStateRegistry(List.of(AcceptedState));
-                s.setRegistry(shipmentStateRegistry);
         shipment = shipmentRepository.save(s);
     }
 
@@ -104,9 +100,9 @@ class ShipmentStateIntegrationTest {
     void shouldRestoreCorrectStateAfterReload() {
 
         shipmentService.tender(shipment.getShipmentId());
-//
-//        entityManager.flush();
-//        entityManager.clear();
+
+        entityManager.flush();
+        entityManager.clear();
 
         Shipment reloaded = shipmentRepository
                 .findById(shipment.getShipmentId())

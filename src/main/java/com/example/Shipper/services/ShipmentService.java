@@ -1,12 +1,12 @@
 package com.example.Shipper.services;
 
 import com.example.Shipper.Repository.ShipmentRepository;
+import com.example.Shipper.StatePattern.ShipmentState;
 import com.example.Shipper.StatePattern.ShipmentStateRegistry;
 import com.example.Shipper.entity.Shipment;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 @Service
 @Transactional
 public class ShipmentService {
@@ -21,41 +21,47 @@ public class ShipmentService {
     }
 
     private Shipment loadShipment(Long shipmentId) {
-        Shipment shipment = shipmentRepository.findById(shipmentId)
+        return shipmentRepository.findById(shipmentId)
                 .orElseThrow(() -> new EntityNotFoundException("Shipment not found"));
-
-        shipment.setRegistry(stateRegistry);
-        return shipment;
     }
 
     public Shipment tender(Long shipmentId) {
         Shipment shipment = loadShipment(shipmentId);
-        shipment.tender();
-        return shipmentRepository.save(shipment);
+        ShipmentState state = stateRegistry.getState(shipment.getStatus());
+
+        shipment.setStatus(state.tender(shipment));
+        return shipment;
     }
 
     public Shipment accept(Long shipmentId, String carrierId) {
         Shipment shipment = loadShipment(shipmentId);
-        shipment.accept(carrierId);
-        return shipmentRepository.save(shipment);
+        ShipmentState state = stateRegistry.getState(shipment.getStatus());
+
+        shipment.setStatus(state.accept(shipment, carrierId));
+        return shipment;
     }
 
     public Shipment pickup(Long shipmentId) {
         Shipment shipment = loadShipment(shipmentId);
-        shipment.pickup();
-        return shipmentRepository.save(shipment);
+        ShipmentState state = stateRegistry.getState(shipment.getStatus());
+
+        shipment.setStatus(state.pickup(shipment));
+        return shipment;
     }
 
     public Shipment deliver(Long shipmentId) {
         Shipment shipment = loadShipment(shipmentId);
-        shipment.deliver();
-        return shipmentRepository.save(shipment);
+        ShipmentState state = stateRegistry.getState(shipment.getStatus());
+
+        shipment.setStatus(state.deliver(shipment));
+        return shipment;
     }
 
     public Shipment cancel(Long shipmentId) {
         Shipment shipment = loadShipment(shipmentId);
-        shipment.cancel();
-        return shipmentRepository.save(shipment);
+        ShipmentState state = stateRegistry.getState(shipment.getStatus());
+
+        shipment.setStatus(state.cancel(shipment));
+        return shipment;
     }
 }
-

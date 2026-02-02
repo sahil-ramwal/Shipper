@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CancelledState implements ShipmentState {
-    public ShipmentStatus getStatus() {
+    public ShipmentStatus supports() {
         return ShipmentStatus.CANCELLED;
     }
 }

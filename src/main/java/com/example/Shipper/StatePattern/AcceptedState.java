@@ -8,13 +8,14 @@ import org.springframework.stereotype.Component;
 public class AcceptedState implements ShipmentState {
 
     @Override
-    public ShipmentStatus getStatus() {
+    public ShipmentStatus supports() {
         return ShipmentStatus.ACCEPTED;
     }
 
     @Override
-    public void pickup(Shipment shipment) {
-        shipment.setState(ShipmentStatus.IN_TRANSIT);
+    public ShipmentStatus pickup(Shipment shipment) {
+
+        return ShipmentStatus.IN_TRANSIT;
     }
 }
 

@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 public class InTransitState implements ShipmentState {
 
     @Override
-    public ShipmentStatus getStatus() {
+    public ShipmentStatus supports() {
         return ShipmentStatus.IN_TRANSIT;
     }
 
     @Override
-    public void deliver(Shipment shipment) {
-        shipment.setState(ShipmentStatus.DELIVERED);
+    public ShipmentStatus deliver(Shipment shipment) {
+        return ShipmentStatus.DELIVERED;
     }
 }
 

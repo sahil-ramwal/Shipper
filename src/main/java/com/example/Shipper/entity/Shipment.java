@@ -51,23 +51,12 @@ public class Shipment {
 
     @Transient
     private ShipmentState state;
-    @Transient
-    private ShipmentStateRegistry registry;
 
-    public void setRegistry(ShipmentStateRegistry registry) {
-        this.registry = registry;
-    }
 
-    @PostLoad
-    @PostPersist
-    private void initState() {
-        this.state = registry.getState(this.status);
-    }
 
 
     public void setState(ShipmentStatus newStatus) {
         this.status = newStatus;
-        this.state=registry.getState(newStatus);
     }
     public void tender() {
         state.tender(this);

@@ -8,18 +8,18 @@ import org.springframework.stereotype.Component;
 public class TenderedState implements ShipmentState {
 
     @Override
-    public ShipmentStatus getStatus() {
+    public ShipmentStatus supports() {
         return ShipmentStatus.TENDERED;
     }
 
     @Override
-    public void accept(Shipment shipment, String carrierId) {
+    public ShipmentStatus accept(Shipment shipment, String carrierId) {
         shipment.setCarrierId(carrierId);
-        shipment.setState(ShipmentStatus.ACCEPTED);
+        return ShipmentStatus.ACCEPTED;
     }
 
     @Override
-    public void cancel(Shipment shipment) {
-        shipment.setState(ShipmentStatus.CANCELLED);
+    public ShipmentStatus cancel(Shipment shipment) {
+        return ShipmentStatus.CANCELLED;
     }
 }

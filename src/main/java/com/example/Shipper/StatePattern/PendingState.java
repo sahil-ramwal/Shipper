@@ -8,17 +8,17 @@ import org.springframework.stereotype.Component;
 public class PendingState implements ShipmentState {
 
     @Override
-    public ShipmentStatus getStatus() {
+    public ShipmentStatus supports() {
         return ShipmentStatus.PENDING;
     }
 
     @Override
-    public void tender(Shipment shipment) {
-        shipment.setState(ShipmentStatus.TENDERED);
+    public ShipmentStatus tender(Shipment shipment) {
+        return ShipmentStatus.TENDERED;
     }
 
     @Override
-    public void cancel(Shipment shipment) {
-        shipment.setState(ShipmentStatus.CANCELLED);
+    public ShipmentStatus cancel(Shipment shipment) {
+        return ShipmentStatus.CANCELLED;
     }
 }

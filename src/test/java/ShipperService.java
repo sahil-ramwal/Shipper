@@ -3,8 +3,8 @@ package com.example.Shipper.services;
 import com.example.Shipper.Repository.ShipperRepository;
 import com.example.Shipper.entity.ShipperProfile;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
